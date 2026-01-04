@@ -54,7 +54,7 @@ publishing {
         release(MavenPublication) {
             from components.java
             groupId = 'com.github.umeshshende'
-            artifactId = 'your-library-name'
+            artifactId = 'com.folioreader'
             version = 'v1.0.0'
         }
     }
