@@ -74,6 +74,9 @@ android {
 
     kotlinOptions { jvmTarget = 1.8 }
 
+    publishing {
+        singleVariant("release")
+    }
 }
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
@@ -116,13 +119,28 @@ dependencies {
     }
 
 }
-publishing {
-    publications {
-        release(MavenPublication) {
-            from components.release
-            groupId = "com.github.umeshshende"
-            artifactId = "vocsy_epub_viewer_android_folioreader"
-            version = "3.0.0"
+afterEvaluate {
+     publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = "com.github.umeshshende"
+                artifactId = "vocsy_epub_viewer_android_folioreader"
+                version = "3.0.0"
+
+                // publish the AAR explicitly
+                artifact(tasks.named("bundleReleaseAar"))
+
+                pom {
+                    name.set("vocsy_epub_viewer_android_folioreader")
+                    description.set("Android FolioReader used by vocsy epub viewer")
+                    url.set("https://github.com/umeshshende/vocsy_epub_viewer_android_folioreader")
+                }
+            }
         }
+    }
+
+    // 🔑 THIS IS THE CRITICAL FIX
+    tasks.withType(PublishToMavenLocal).configureEach {
+        dependsOn(tasks.named("bundleReleaseAar"))
     }
 }
