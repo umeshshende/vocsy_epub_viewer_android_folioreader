@@ -1,3 +1,5 @@
+group = "com.github.umeshshende"
+version = "3.0.0"
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
@@ -113,4 +115,14 @@ dependencies {
         changing = true
     }
 
+}
+publishing {
+    publications {
+        release(MavenPublication) {
+            from components.release
+            groupId = "com.github.umeshshende"
+            artifactId = "vocsy_epub_viewer_android_folioreader"
+            version = "3.0.0"
+        }
+    }
 }
